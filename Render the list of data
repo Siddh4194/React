@@ -1,0 +1,71 @@
+//persons
+import React, { Component } from "react";
+import Man from "./Man";
+import "./person.css";
+class Person extends Component {
+    constructor(props){
+        super(props);
+        this.props = props;
+        }
+    nameChangeHandler(){
+        this.setState({name:"aditya"},()=>{console.log(this.state);});
+    }
+    render(){
+        return(
+            <div className="personbox">
+                 <div>Name:{this.props.name}</div>
+                 <div>Age:{this.props.age} Year</div>
+                 <Man></Man>
+                 <br/>
+                 <button onClick={() => this.nameChangeHandler()}></button>
+            </div>
+        );
+    }}
+export default Person;
+//App
+import { render } from '@testing-library/react';
+import { Component } from 'react';
+import './App.css';
+import Person from './components/Person.js';
+
+class App extends Component{
+  constructor(props){
+    super(props);
+      this.state={
+        persons:[
+          {
+            id : 1,
+            name:"Omkar Kadam",
+            age : 25,
+          },
+          {
+            id : 2,
+            name:"Pratik Falle",
+            age : 26,
+          },
+          {
+            id : 3,
+            name:"siddhant Kadam",
+            age : 25,
+          },
+          {
+            id : 4,
+            name:"aditya Kadam",
+            age : 25,
+          },
+    ],
+  };
+  }
+
+render() {
+  let persons;
+  persons = this.state.persons.map((p) =>{
+    return <Person key={p.id} name={p.name} age={p.age}></Person>
+  }
+  // persons = this.state.persons.map((p,index) =>{
+  //   return <Person key={index} name={p.name} age={p.age}></Person>
+  // }
+  );
+  return <div className='App'>{persons}</div>;
+}}
+export default App;
