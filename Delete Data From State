@@ -1,0 +1,88 @@
+import { render } from '@testing-library/react';
+import { Component } from 'react';
+import './App.css';
+import Person from './components/Person.js';
+
+class App extends Component{
+  constructor(props){
+    super(props);
+      this.state={
+        persons:[
+          {
+            id : 1,
+            name:"Omkar Kadam",
+            age : 25,
+          },
+          {
+            id : 2,
+            name:"Pratik Falle",
+            age : 26,
+          },
+          {
+            id : 3,
+            name:"siddhant Kadam",
+            age : 25,
+          },
+          {
+            id : 4,
+            name:"aditya Kadam",
+            age : 25,
+          },
+    ],
+    isShow : true,
+  };
+  this.toggleHandler=this.toggleHandler.bind(this);
+  }
+ toggleHandler(){
+  this.setState({isShow : ! this.state.isShow});
+ }
+ removeH = (personsindex) => {
+  alert(personsindex);
+  //create a copy of array
+  const persons1=this.state.persons;
+  //remove the perticular element from the array using the splice method it start from personindex and the second value is for how much value ahead are going to delete
+  persons1.splice(personsindex,1);
+  this.setState({persons : persons1});
+ }
+render() {
+  let persons;
+  persons = this.state.persons.map((p,index) =>{
+    return <Person key={p.id} name={p.name} age={p.age} removeH={() => this.removeH(index)}></Person>
+  }
+  // persons = this.state.persons.map((p,index) =>{
+  //   return <Person key={index} name={p.name} age={p.age}></Person>
+  // }
+  );
+  console.log(this.state.isShow)
+  return (
+    <div className='App'>
+      <button onClick={this.toggleHandler}>Toggle</button>
+      {this.state.isShow == true ? persons : ""}
+      </div>
+  );
+}}
+export default App;//person.js
+import React, { Component } from "react";
+import Man from "./Man";
+import "./person.css";
+class Person extends Component {
+    constructor(props){
+        super(props);
+        this.props = props;
+        }
+    nameChangeHandler(){
+        this.setState({name:"aditya"},()=>{console.log(this.state);});
+    }
+    render(){
+        return(
+        //change is here in the below line
+            <div className="personbox" onClick={this.props.removeH}>
+                 <div>Name:{this.props.name}</div>
+                 <div>Age:{this.props.age} Year</div>
+                 <Man></Man>
+                 <br/>
+                 <button onClick={() => this.nameChangeHandler()}></button>
+            </div>
+        );
+    }}
+export default Person;
